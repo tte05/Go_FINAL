@@ -13,7 +13,7 @@ func SendConfirmationEmail(user models.User) error {
 	m.SetHeader("From", "javafrom@yandex.ru")
 	m.SetHeader("To", user.Email)
 	m.SetHeader("Subject", "Confirmation of registration")
-	m.SetBody("text/html", "To confirm registration, click on the link: <a href='http://localhost:8080/confirm/"+user.ConfirmationToken+"'>Confirm</a>")
+	m.SetBody("text/html", "To confirm registration, click on the link: <a href='https://go-final-1n5l.onrender.com/confirm/"+user.ConfirmationToken+"'>Confirm</a>")
 
 	d := gomail.NewDialer("smtp.yandex.ru", 587, "javafrom@yandex.ru", "cegbkuthamcmvsvm")
 
@@ -48,7 +48,7 @@ func SendPasswordResetEmail(to string, token string) error {
 	m.SetHeader("From", "javafrom@yandex.ru")
 	m.SetHeader("To", to)
 	m.SetHeader("Subject", "Password Reset")
-	m.SetBody("text/html", "Please use the following link to reset your password: <a href='http://localhost:8080/password-reset?token="+token+"'>Reset</a>")
+	m.SetBody("text/html", "Please use the following link to reset your password: <a href='https://go-final-1n5l.onrender.com/password-reset?token="+token+"'>Reset</a>")
 
 	d := gomail.NewDialer("smtp.yandex.ru", 587, "javafrom@yandex.ru", "cegbkuthamcmvsvm")
 
