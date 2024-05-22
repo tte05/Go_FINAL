@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	connectionString = "mongodb+srv://tamer:8NcGI8Val0v0kfvQ@cluster-final.u2ih7w9.mongodb.net/"
+	connectionString = "mongodb+srv://Kiraro:EvMgE22srSkbb5Lc@cluster0.gkbbkh8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 	dbName           = "gamesdb"
 )
 
