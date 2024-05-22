@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+</head>
+<body>
+<section class="ui segment container" id="main-view">
+    <div class="ui segment" id="registration-form">
+        <h2>Registration</h2>
+        <form action="/register" method="post" class="ui form">
+            <div class="ui stacked segment">
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input type="text" name="username" placeholder="Username" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="password" placeholder="Password" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="mail icon"></i>
+                        <input type="email" name="email" placeholder="Email" required>
+                    </div>
+                </div>
+                <button class="ui button green fluid" type="submit">Register</button>
+                <br />
+                <a href="/login" class="ui button blue fluid">Login</a>
+            </div>
+        </form>
+        <h4 class="ui message">We will send a message to your email address in which you must confirm your account</h4>
+    </div>
+</section>
+</body>
+</html>

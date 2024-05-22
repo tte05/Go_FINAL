@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+</head>
+<body>
+<section class="ui segment container" id="main-view">
+    <div class="ui segment" id="login-form">
+        <h2>Login</h2>
+        <form action="/login" method="post" class="ui form">
+            <div class="ui stacked segment">
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input type="text" name="username" placeholder="Username" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="password" placeholder="Password" required>
+                    </div>
+                </div>
+                <button class="ui button blue fluid" type="submit">Login</button>
+                <br />
+                <a href="/register" class="ui button green fluid">Registration</a>
+                <a href="/password-reset-request" class="ui button red fluid">Reset Password</a>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>
