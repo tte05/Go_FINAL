@@ -15,39 +15,35 @@ const logFilePath = "app.log"
 var logger *logrus.Logger
 
 func main() {
-	logger = logrus.New()
-
 	logFile, err := os.OpenFile(logFilePath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
-		logger.Fatalf("Unable to create log file: %v", err)
+		panic("Unable to create log file: " + err.Error())
 	}
 	defer logFile.Close()
 
+	logger = logrus.New()
 	logger.Out = logFile
 
 	client, err := db.ConnectToMongoDB()
 	if err != nil {
-		logger.Fatalf("Error connecting to MongoDB: %v", err)
+		logger.Fatal("Error connecting to MongoDB:", err)
 	}
 	defer client.Disconnect(context.Background())
 
-	r := router.SetupRouter()
+	router := router.SetupRouter()
 	limiter := middleware.NewLimiter(2, 5)
-	r.Use(limiter)
-
-	r.HandleFunc("/games", func(w http.ResponseWriter, r *http.Request) {
+	router.Use(limiter)
+	
+	router.HandleFunc("/games", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./templates/index.html")
 	}).Methods("GET")
 
-	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/games", http.StatusSeeOther)
 	})
 
-	http.Handle("/", r)
+	http.Handle("/", router)
 
-	port := os.Getenv("PORT")
-
-	logger.Infof("Server started at localhost:%s", port)
-
-	logger.Fatal(http.ListenAndServe(":"+port, nil))
+	logger.Info("Server started at localhost:8080")
+	logger.Fatal(http.ListenAndServe(":8080", router))
 }
