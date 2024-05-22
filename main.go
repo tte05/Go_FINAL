@@ -33,7 +33,7 @@ func main() {
 	router := router.SetupRouter()
 	limiter := middleware.NewLimiter(2, 5)
 	router.Use(limiter)
-	
+
 	router.HandleFunc("/games", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./templates/index.html")
 	}).Methods("GET")
@@ -44,6 +44,11 @@ func main() {
 
 	http.Handle("/", router)
 
-	logger.Info("Server started at localhost:8080")
-	logger.Fatal(http.ListenAndServe(":8080", router))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // Default port if not specified
+	}
+
+	logger.Info("Server started at port:", port)
+	logger.Fatal(http.ListenAndServe(":"+port, router))
 }
