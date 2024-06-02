@@ -34,6 +34,12 @@ func SetupRouter() *mux.Router {
 	auth.HandleFunc("/games/{id}", handlers.UpdateGameByIDHandler).Methods("PUT")
 	auth.HandleFunc("/games/{id}", handlers.DeleteGameByIDHandler).Methods("DELETE")
 
+	auth.HandleFunc("/buy", handlers.BuyPageHandler).Methods("GET")
+	auth.HandleFunc("/success", handlers.BuySuccess).Methods("GET")
+	auth.HandleFunc("/transactions/pay", handlers.PaymentSubmitHandler).Methods("POST")
+	auth.HandleFunc("/transactions", handlers.CreateTransactionHandler).Methods("POST")
+	auth.HandleFunc("/transactions/{id}/pay", handlers.PaymentHandler).Methods("POST")
+
 	admin := auth.PathPrefix("/admin").Subrouter()
 	admin.Use(middleware.AdminRequired(store))
 	admin.HandleFunc("", handlers.AdminPageHandler).Methods("GET")

@@ -3,21 +3,23 @@ package db
 import (
 	"context"
 	"errors"
+	"goproject/app/models"
+	"time"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"goproject/app/models"
-	"time"
 )
 
 const (
-	connectionString = "mongodb://localhost:27017"
+	connectionString = "mongodb+srv://Kiraro:EvMgE22srSkbb5Lc@cluster0.gkbbkh8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 	dbName           = "gamesdb"
 )
 
 var Collection *mongo.Collection
 var Collection2 *mongo.Collection
+var TransactionsCollection *mongo.Collection
 
 func ConnectToMongoDB() (*mongo.Client, error) {
 	clientOptions := options.Client().ApplyURI(connectionString)
@@ -33,7 +35,24 @@ func ConnectToMongoDB() (*mongo.Client, error) {
 
 	Collection = client.Database(dbName).Collection("games")
 	Collection2 = client.Database(dbName).Collection("users")
+	TransactionsCollection = client.Database(dbName).Collection("transactions")
 	return client, nil
+}
+
+func CreateTransaction(transaction *models.Transaction) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := TransactionsCollection.InsertOne(ctx, transaction)
+	return err
+}
+
+func UpdateTransactionByID(id primitive.ObjectID, update interface{}) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := TransactionsCollection.UpdateOne(ctx, bson.M{"_id": id}, update)
+	return err
 }
 
 func InsertUser(user models.User) error {

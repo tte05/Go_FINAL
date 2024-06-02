@@ -115,6 +115,7 @@
             <button onclick="fetchFilteredGames({{ . }}, 5, '{{ $.SortBy }}', '')">{{ . }}</button>
             {{ end }}
         </div>
+        <button onclick="location.href='/buy'">Buy</button>
         <div id="gamesList" class="games-list">
             {{ range .Games }}
             <div class="game">
@@ -137,7 +138,15 @@
         const sortButton = document.getElementById('sortButton');
         const sortSelect = document.getElementById('sortSelect');
         const ratingFilter = document.getElementById('ratingFilter');
-
+        const buyButtons = document.querySelectorAll('.buy-button');
+        buyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Get the game title associated with this button
+                const gameTitle = this.getAttribute('data-game-title');
+                // Redirect to the payment page with the game title as a query parameter
+                window.location.href = `/buy?title=${encodeURIComponent(gameTitle)}`;
+            });
+        });
         function fetchFilteredGames(page = 1, pageSize = 5, sortBy = 'titleASC', minRating = '') {
             let url = `/games?page=${page}&pageSize=${pageSize}&sortBy=${sortBy}`;
 
